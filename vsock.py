@@ -28,10 +28,9 @@ class VsockStream:
         """Receive data from a remote endpoint"""
         while True:
             data = self.sock.recv(1024).decode()
+            print("Client received:", data)
             if not data:
                 break
-            print(data, end="", flush=True)
-        print()
 
     def disconnect(self):
         """Close the client socket"""
@@ -42,7 +41,7 @@ def client_handler(args):
     client = VsockStream()
     endpoint = (args.cid, args.port)
     client.connect(endpoint)
-    msg = "Hello Private Lift"
+    msg = "Hello Private Lift \n"
     client.send_data(msg.encode())
     client.recv_data()
     client.disconnect()
@@ -68,13 +67,13 @@ class VsockListener:
             while True:
                 try:
                     data = from_client.recv(1024).decode()
+                    print("Server received:", data)
                 except socket.error:
                     break
                 if not data:
                     break
                 if '\n' in data:
                     break
-                print("Server received: " + data)
             msg = "Server echoing: " + data
             from_client.sendall(bytes(msg, "ascii"))
             from_client.close()

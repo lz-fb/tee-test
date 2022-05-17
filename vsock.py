@@ -28,7 +28,7 @@ class VsockStream:
         """Receive data from a remote endpoint"""
         while True:
             data = self.sock.recv(1024).decode()
-            print("Client received:", data)
+            print("Client received:", data, flush=True)
             if not data:
                 break
 
@@ -67,7 +67,7 @@ class VsockListener:
             while True:
                 try:
                     data = from_client.recv(1024).decode()
-                    print("Server received:", data)
+                    print("Server received:", data, flush=True)
                 except socket.error:
                     break
                 if not data:

@@ -72,8 +72,9 @@ class VsockListener:
                     break
                 if not data:
                     break
-                print(data, end="", flush=True)
-            print()
+                if '\n' in data:
+                    break
+                print("Server received: " + data)
             msg = "Server echoing: " + data
             from_client.sendall(bytes(msg, "ascii"))
             from_client.close()
